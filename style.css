@@ -1,0 +1,177 @@
+/* Variables de color para fácil personalización */
+:root {
+	--bg: #0f172a;
+	--card-bg: #1e293b;
+	--accent: #38bdf8;
+	--text: #f8fafc;
+	--text-muted: #94a3b8;
+}
+
+body {
+	font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+	background-color: var(--bg);
+	color: var(--text);
+	margin: 0;
+	line-height: 1.6;
+}
+
+/* Header / Hero Section */
+header {
+	height: 60vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+	padding: 20px;
+}
+
+h1 {
+	font-size: clamp(2rem, 5vw, 3.5rem);
+	margin-bottom: 10px;
+}
+.highlight {
+	color: var(--accent);
+}
+
+header p {
+	font-size: 1.2rem;
+	color: var(--text-muted);
+	max-width: 600px;
+}
+
+.tech-icons {
+	margin-top: 20px;
+	display: flex;
+	gap: 20px;
+	color: var(--text-muted);
+}
+
+/*Contenedor de whastapp y cv*/
+
+.cta-container {
+	margin-top: 30px;
+	display: flex;
+	gap: 15px;
+	justify-content: center;
+	flex-wrap: wrap; /* Para que en el móvil se pongan uno sobre otro */
+}
+
+/* Estilo base para ambos botones */
+.btn-primary,
+.btn-secondary {
+	padding: 12px 24px;
+	border-radius: 8px;
+	text-decoration: none;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	transition: all 0.3s ease;
+}
+
+/* Botón de WhatsApp (Verde) */
+.btn-primary {
+	background-color: #25d366;
+	color: #000;
+}
+
+.btn-primary:hover {
+	background-color: #128c7e;
+	color: #fff;
+	transform: scale(1.05);
+}
+
+/* Botón de CV (Bordeado / Minimalista) */
+.btn-secondary {
+	background-color: transparent;
+	color: var(--accent);
+	border: 2px solid var(--accent);
+}
+
+.btn-secondary:hover {
+	background-color: var(--accent);
+	color: #0f172a;
+	transform: scale(1.05);
+}
+
+/* Contenedor y Grid de Proyectos */
+.container {
+	max-width: 1100px;
+	margin: auto;
+	padding: 40px 20px;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 25px;
+	margin-top: 50px;
+}
+
+/* Tarjetas de Proyecto */
+.card {
+	background: var(--card-bg);
+	border-radius: 16px;
+	padding: 24px;
+	transition: all 0.3s ease;
+	border: 1px solid #334155;
+	display: flex;
+	flex-direction: column;
+}
+
+.card:hover {
+	transform: translateY(-8px);
+	border-color: var(--accent);
+	box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
+}
+
+.tag {
+	align-self: flex-start;
+	background: rgba(56, 189, 248, 0.1);
+	color: var(--accent);
+	padding: 4px 12px;
+	border-radius: 6px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-bottom: 15px;
+}
+
+.card h3 {
+	margin: 10px 0;
+	font-size: 1.4rem;
+}
+.card p {
+	color: var(--text-muted);
+	font-size: 0.95rem;
+	flex-grow: 1;
+}
+
+.btn {
+	display: inline-block;
+	margin-top: 20px;
+	color: var(--accent);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.btn:hover {
+	text-decoration: underline;
+}
+
+/* Footer */
+footer {
+	text-align: center;
+	padding: 80px 20px;
+	border-top: 1px solid #1e293b;
+}
+
+footer a {
+	color: var(--accent);
+	text-decoration: none;
+	margin: 0 10px;
+	font-weight: 500;
+}
