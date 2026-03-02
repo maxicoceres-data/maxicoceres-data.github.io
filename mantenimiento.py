@@ -3,7 +3,9 @@ import sqlite3
 
 
 BASE_DIR = Path(__file__).resolve().parent
-conn = sqlite3.connect(BASE_DIR /"data" / "proyectos.db")
+DB_PATH = BASE_DIR /"data" / "proyectos.db"
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
 

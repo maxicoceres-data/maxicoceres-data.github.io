@@ -8,6 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent
 
 DB_PATH = BASE_DIR /"data" / "proyectos.db"
 
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 
 #conectar o crear base de datos
 conn = sqlite3.connect(DB_PATH)
