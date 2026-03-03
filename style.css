@@ -172,7 +172,7 @@ header p {
 	border-radius: 4px;
 	font-size: 0.8rem;
 	font-weight: bold;
-	margin: 0.2em;
+	margin: 0.5em 0.5em 0.2em 0.5em;
 	text-transform: uppercase;
 }
 
