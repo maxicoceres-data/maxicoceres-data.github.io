@@ -61,7 +61,7 @@ def generar_web():
 
 		<div class="container">
 			<h2 style="text-align: center; font-size: 2rem">
-				Proyectos Seleccionados
+				Mis proyectos
 			</h2>
 
         <div class="grid">
