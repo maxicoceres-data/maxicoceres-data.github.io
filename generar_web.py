@@ -68,7 +68,7 @@ def generar_web():
             {% for p in lista_proyectos %}
             <div class="card">
 					<span class="tag">{{p.tecnologia}}</span>
-					{% if {{p.url}}.endwiths(".mp4")}
+					{% if p.url.endswith(".mp4") %}
 					<video autoplay loop muted playsinline class="card-video">
 						<source
 							src="/assets/{{p.url}}"
@@ -76,9 +76,9 @@ def generar_web():
 						/>
 						Tu navegador no soporta videos.
 					</video>
-					{%else%}
+					{% else %}
 					<img class="card-imagen" src="/assets/{{p.url}}">
-					{%endif%}
+					{% endif %}
 					<h3>{{p.titulo}}</h3>
 					<p>
 						{{p.descripcion}}
