@@ -149,6 +149,34 @@ header p {
 	flex-grow: 1;
 }
 
+/* Estilo unificado para Video e Imagen */
+.card-video,
+.card-imagen {
+	width: 100%;
+	height: 200px; /* Altura fija para que todas las tarjetas midan lo mismo */
+	object-fit: cover; /* Recorta el contenido para llenar el espacio sin deformarse */
+	display: block;
+	border-bottom: 2px solid #f0f0f0;
+}
+
+/* Opcional: Un pequeño efecto para el video al pasar el mouse */
+.card:hover .card-video {
+	filter: brightness(1.1);
+}
+
+/* El tag de tecnología (puedes ajustarlo a tu gusto) */
+.tag {
+	display: inline-block;
+	background: #e1ecf4;
+	color: #39739d;
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-size: 0.8rem;
+	font-weight: bold;
+	margin: 15px 15px 0 15px;
+	text-transform: uppercase;
+}
+
 .btn {
 	display: inline-block;
 	margin-top: 20px;
