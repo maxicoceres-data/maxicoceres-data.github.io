@@ -14,6 +14,17 @@ def generar_web():
     proyectos = cursor.execute("SELECT * FROM proyectos").fetchall()
     conn.close()
     
+    proyectos_modificados = []
+
+    for proyecto in proyectos:
+        p = dict(proyecto)
+
+        if p["tecnologia"]:
+            p["tecnologia"] = [t.strip() for t in p["tecnologia"].split(",") if t.strip()]
+        else:
+            p["tecnologia"] = []
+
+        proyectos_modificados.append(p)
     
     plantilla_html = '''
     <!doctype html>
@@ -117,7 +128,7 @@ def generar_web():
     
     
     template = Template(plantilla_html)
-    html_final = template.render(lista_proyectos = proyectos)
+    html_final = template.render(lista_proyectos = proyectos_modificados)
     
     with open(BASE_DIR / "index.html", "w", encoding="utf-8") as f:
         f.write(html_final)
