@@ -18,8 +18,19 @@ def subir_proyecto():
     while True:
         print("\n--- Cargando nuevo proyecto ---")
         titulo = input("Titulo del proyecto: ")
-        tecnologia = input("Tecnologia del proyecto: ")
+        
+        
+        
+        cant_tecnologia = int(input("Cantidad de tecnologias: "))
+        lista_tecnologias = []
+        contador = 0
+        while cant_tecnologia > contador:
+            tecnologia = input("Tecnologia del proyecto: ")
+            lista_tecnologias.append(tecnologia)
+            contador += 1
+        tecnologias_string = ",".join(lista_tecnologias)
         descripcion = input("Descripción del proyecto: ")
+        
         while True:
             url = input("Url del video o imagen: ")
             if url.lower().endswith((".png",".mp4")):
@@ -34,13 +45,15 @@ def subir_proyecto():
             else:
                 print("Tiene que ser una URL de github.")
         
-        proyecto = (titulo,tecnologia,descripcion,url,github)
+        proyecto = (titulo,tecnologias_string,descripcion,url,github)
         proyectos.append(proyecto)
         
         continuar = input("Desea agregar otro proyecto (s/n): ").lower()
         if continuar != "s":
             break
-        
+    
+    
+    
     cursor.executemany("INSERT INTO proyectos (titulo,tecnologia,descripcion,url,github) VALUES (?,?,?,?,?)", proyectos)
     
     conn.commit()
