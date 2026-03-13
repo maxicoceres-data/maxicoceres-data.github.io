@@ -179,6 +179,7 @@ header p {
 	display: flex;
 	flex-direction: row;
 	margin: 0.5em 0.5em 0.2em 0.5em;
+	flex-wrap: wrap;
 }
 
 .btn {
