@@ -175,6 +175,12 @@ header p {
 	text-transform: uppercase;
 }
 
+.tags {
+	display: flex;
+	flex-direction: row;
+	gap: 0.3em;
+}
+
 .btn {
 	display: inline-block;
 	margin-top: 20px;

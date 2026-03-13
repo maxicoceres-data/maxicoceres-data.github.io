@@ -78,9 +78,11 @@ def generar_web():
         <div class="grid">
             {% for p in lista_proyectos %}
             <div class="card">
+					<div class ="tags">
 					{% for t in p.tecnologia %}
 					<span class="tag">{{t}}</span>
 					{% endfor %}
+					</div>
 					{% if p.url.endswith(".mp4") %}
 					<video autoplay loop muted playsinline class="card-video">
 						<source
