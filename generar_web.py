@@ -44,7 +44,7 @@ def generar_web():
 	<body>
 		<header>
 			<h1>Hola, soy <span class="highlight">Maxi</span></h1>
-			<p>Especialista en Análisis de Datos</p>
+			<p>Especialista en Python y Análisis de Datos</p>
 			<div class="tech-icons">
 				<i class="fab fa-python fa-2x" title="Python"></i>
 				<i class="fas fa-database fa-2x" title="SQL"></i>
