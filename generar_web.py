@@ -67,7 +67,7 @@ def generar_web():
         <div class="grid">
             {% for p in lista_proyectos %}
             <div class="card">
-					{% for t in p.tecnologias %}
+					{% for t in p.tecnologia %}
 					<span class="tag">{{t}}</span>
 					{% endfor %}
 					{% if p.url.endswith(".mp4") %}
