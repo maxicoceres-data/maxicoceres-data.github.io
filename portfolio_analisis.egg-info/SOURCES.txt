@@ -1,0 +1,11 @@
+pyproject.toml
+setup.cfg
+function/__init__.py
+function/generar_web.py
+function/mantenimiento.py
+function/path.py
+function/subir_proyectos.py
+portfolio_analisis.egg-info/PKG-INFO
+portfolio_analisis.egg-info/SOURCES.txt
+portfolio_analisis.egg-info/dependency_links.txt
+portfolio_analisis.egg-info/top_level.txt

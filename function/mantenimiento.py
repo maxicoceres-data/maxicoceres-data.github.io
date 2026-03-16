@@ -1,10 +1,7 @@
-from pathlib import Path
 import sqlite3
+from function.path import path_ubicacion
 
-
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR /"data" / "proyectos.db"
-DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+DB_PATH= path_ubicacion()
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
@@ -26,28 +23,29 @@ while True:
         continue
     
     if seleccionar_opcion == 2:
-        
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tablas = cursor.fetchall()
-        print(f"Tablas en la DB: {tablas}")
-
-        #4. Pedimos el ID
-        id_a_eliminar = input("ID del proyecto a eliminar: ")
-
-        try:
-            # 5. Ejecutamos con la coma (,) al final para que sea una tupla
-            cursor.execute("DELETE FROM proyectos WHERE id = ?", (id_a_eliminar,))
+        def eliminar_proyecto(id_eliminar):
             
-            # 6. Verificamos si realmente se borró algo
-            if cursor.rowcount > 0:
-                conn.commit()
-                print(f"✅ Éxito: Proyecto con ID {id_a_eliminar} eliminado.")
-                break
-            else:
-                print(f"⚠️ Atención: No se encontró ningún proyecto con el ID {id_a_eliminar}.")
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tablas = cursor.fetchall()
+            print(f"Tablas en la DB: {tablas}")
 
-        except sqlite3.OperationalError as e:
-            print(f"❌ Error de SQL: {e}. ¿Seguro que la tabla se llama 'proyectos'?")
+            #4. Pedimos el ID
+            id_a_eliminar = id_eliminar
+
+            try:
+                # 5. Ejecutamos con la coma (,) al final para que sea una tupla
+                cursor.execute("DELETE FROM proyectos WHERE id = ?", (id_a_eliminar,))
+            
+                # 6. Verificamos si realmente se borró algo
+                if cursor.rowcount > 0:
+                    conn.commit()
+                    print(f"✅ Éxito: Proyecto con ID {id_a_eliminar} eliminado.")
+                    break
+                else:
+                    print(f"⚠️ Atención: No se encontró ningún proyecto con el ID {id_a_eliminar}.")
+
+            except sqlite3.OperationalError as e:
+                print(f"❌ Error de SQL: {e}. ¿Seguro que la tabla se llama 'proyectos'?")
         
     elif seleccionar_opcion == 1:
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")

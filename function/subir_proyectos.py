@@ -1,62 +1,44 @@
 import sqlite3
-from pathlib import Path
+import streamlit as st
+from function.path import path_ubicacion
 
-def subir_proyecto():
-    #conectar o crear base de datos
-    BASE_DIR = Path(__file__).resolve().parent.parent
-    DATA_FOLDER = BASE_DIR / "data"
-    DB_PATH = DATA_FOLDER / "proyectos.db"
+def subir_proyecto(titulo= None,cant_tecnologia= None,tecnologia= None,descripcion= None,url= None,github= None):
+    
+    DB_PATH= path_ubicacion()
+    
+    
+    # Validaciones
+    if not all([titulo, cant_tecnologia, tecnologia, descripcion, url, github]):
+        st.error("Faltan campos obligatorios.")
+        return
+    
+    try:
+        cant = int(cant_tecnologia)
+    except Exception:
+        st.error("Cantidad de tecnologías inválida.")
+        return
+    
+    tecnologias_string = tecnologia if isinstance(tecnologia, str) else ",".join(map(str, tecnologia))
+    
+    if not url.lower().endswith((".png", ".mp4")):
+        st.error("El archivo tiene que ser .png o .mp4.")
+        return
 
-    DATA_FOLDER.mkdir(parents=True, exist_ok=True)
+    if not github.lower().startswith("https://github.com/maxicoceres-data/"):
+        st.error("La URL de GitHub debe comenzar con https://github.com/maxicoceres-data/")
+        return
     
-    
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    proyectos = []
-    
-    while True:
-        print("\n--- Cargando nuevo proyecto ---")
-        titulo = input("Titulo del proyecto: ")
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO proyectos (titulo,tecnologia,descripcion,url,github) VALUES (?,?,?,?,?)", (titulo,tecnologias_string,descripcion,url,github))
         
-        
-        
-        cant_tecnologia = int(input("Cantidad de tecnologias: "))
-        lista_tecnologias = []
-        contador = 0
-        while cant_tecnologia > contador:
-            tecnologia = input("Tecnologia del proyecto: ")
-            lista_tecnologias.append(tecnologia)
-            contador += 1
-        tecnologias_string = ",".join(lista_tecnologias)
-        descripcion = input("Descripción del proyecto: ")
-        
-        while True:
-            url = input("Url del video o imagen: ")
-            if url.lower().endswith((".png",".mp4")):
-                break
-            else:
-                print("El archivo tiene que ser un png o mp4.")
-        
-        while True:
-            github = input("Enlace de Github: ")
-            if github.lower().startswith("https://github.com/maxicoceres-data/"):
-                break
-            else:
-                print("Tiene que ser una URL de github.")
-        
-        proyecto = (titulo,tecnologias_string,descripcion,url,github)
-        proyectos.append(proyecto)
-        
-        continuar = input("Desea agregar otro proyecto (s/n): ").lower()
-        if continuar != "s":
-            break
+        conn.commit()
+    except Exception as e:
+        st.error(f'Error al subir proyecto: {e}')
+    finally:
+        try:
+            conn.close()
+        except:
+            pass
     
-    
-    
-    cursor.executemany("INSERT INTO proyectos (titulo,tecnologia,descripcion,url,github) VALUES (?,?,?,?,?)", proyectos)
-    
-    conn.commit()
-    conn.close()
-    
-    print("Datos subidos correctamente.")

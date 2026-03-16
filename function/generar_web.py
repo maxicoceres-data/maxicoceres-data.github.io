@@ -1,12 +1,14 @@
 import sqlite3
 from jinja2 import Template
 from pathlib import Path
+from function.path import path_ubicacion
+import streamlit as st
 
 
 def generar_web():
     
-    BASE_DIR = Path(__file__).resolve().parent
-    DB_PATH = BASE_DIR / "data" / "proyectos.db"
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    DB_PATH = path_ubicacion()
     
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row #permite acceder por nombre de columna
@@ -135,7 +137,7 @@ def generar_web():
     with open(BASE_DIR / "index.html", "w", encoding="utf-8") as f:
         f.write(html_final)
         
-    print(f"🚀 Web generada con {len(proyectos)} proyectos.")
+    st.success(f"🚀 Web generada con {len(proyectos)} proyectos.")
     
 if __name__ == "__main__":
     generar_web()

@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "portfolio-analisis"
+version = "0.0.0"
+description = "Portfolio análisis"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [ { name = "Maximiliano Cóceres" } ]
