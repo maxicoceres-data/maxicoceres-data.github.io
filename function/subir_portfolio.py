@@ -6,7 +6,9 @@ def subir_portfolio():
     try:
         ruta_repo = os.path.dirname(os.path.abspath(__file__))
         
-        repo = Repo(ruta_repo)
+        ruta_proy = os.path.abspath(os.path.join(ruta_repo, ".."))
+        
+        repo = Repo(ruta_proy)
         
         repo.git.add(A=True)
         
