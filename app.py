@@ -45,6 +45,8 @@ if button_subir:
                 st.rerun()
     mostrar_mensaje_subir()
 
+st.sidebar.link_button("Volver a Portfolio","https://maxicoceres-data.github.io")
+
 if herramientas == "Nuevo Proyecto":
     with st.form("Carga de nuevo proyecto: "):
         titulo = st.text_input("Título del proyecto")
