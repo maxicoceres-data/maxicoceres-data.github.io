@@ -15,13 +15,35 @@ df = pd.read_sql_query("SELECT * FROM proyectos", conn)
 st.title("Panel de proyectos")
 
 herramientas = st.sidebar.radio("Herramientas", ["Nuevo Proyecto", "Modificar Proyecto", "Eliminar Proyecto"])
-button_carga = st.sidebar.button("Cargar Proyecto")
-button_subir = st.sidebar.button("Subir Portfolio")
+st.sidebar.divider()
+st.sidebar.caption("📂 Preparación")
+button_carga = st.sidebar.button("Analizar Cambios")
+st.sidebar.write("⬇️")
+st.sidebar.caption("🌍 Subir web")
+button_subir = st.sidebar.button("Sincronizar Portfolio")
 if button_carga:
-    generar_web()
+    @st.dialog("¿Desea cargar el proyecto?")
+    def mostrar_mensaje_cargar():
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Cargar"):
+                generar_web()
+        with col2:
+            if st.button("Cerrar"):
+                st.rerun()
+    mostrar_mensaje_cargar()
 
 if button_subir:
-    subir_portfolio()
+    @st.dialog("¿Desea subir el portfolio?")
+    def mostrar_mensaje_subir():
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Subir"):
+                subir_portfolio()
+        with col2:
+            if st.button("Cerrar"):
+                st.rerun()
+    mostrar_mensaje_subir()
 
 if herramientas == "Nuevo Proyecto":
     with st.form("Carga de nuevo proyecto: "):

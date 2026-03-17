@@ -9,3 +9,10 @@ description = "Portfolio análisis"
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [ { name = "Maximiliano Cóceres" } ]
+
+[tool.poetry]
+name = "portfolio-analisis"
+version = "0.1.0"
+description = ""
+authors = ["Maximiliano Cóceres"]
+package-mode = false  # <--- AÑADE ESTA LÍNEA
