@@ -94,7 +94,7 @@ elif herramientas == "Eliminar Proyecto":
                 
 elif herramientas == "Modificar Proyecto":
     with st.form("Modificar datos del proyecto"):
-        tecnolgias_listas = df.columns
+        tecnolgias_listas = df.columns[1:]
         columna = st.selectbox("Seleccione la Columna",options=tecnolgias_listas)
         id_proyecto = st.number_input("Número del Proyecto (Numero ID)",step=1)
         valor = st.text_area("Texto a modificar", placeholder="Escribe el nuevo valor a modificar", help="Si son tecnologias, escribilas seguidas de ','")
