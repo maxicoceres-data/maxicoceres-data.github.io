@@ -3,7 +3,3 @@
 venv/
 .env/
 
-# Base de datos
-*.db
-*.sqlite
-*.sqlite3
