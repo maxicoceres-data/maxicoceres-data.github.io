@@ -42,6 +42,12 @@ def generar_web():
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 		/>
+  
+		// Si entras a maxicoceres-data.github.io/?go=admin
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('go') === 'admin') {
+    window.location.href = "https://maxicoceres-data.streamlit.app/";
+}
 	</head>
 	<body>
 		<header>
