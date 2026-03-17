@@ -7,8 +7,22 @@ from function.subir_portfolio import subir_portfolio
 from function.path import path_ubicacion
 import pandas as pd
 import sqlite3
+import os
 
-DB_PATH= path_ubicacion()
+# Intentar usar la versión cifrada de la DB si existe (mi_base.db.enc)
+enc_path = path_ubicacion() + ".enc"
+DB_PATH = path_ubicacion()
+try:
+    if os.path.exists(enc_path):
+        from utils.fernet_db import decrypt_db_to_temp
+        DB_PATH = decrypt_db_to_temp(enc_path)
+except Exception as e:
+    # Mostrar el error en Streamlit pero seguir usando la DB sin cifrar si falla
+    try:
+        st.error(f"Error al descifrar DB: {e}")
+    except Exception:
+        pass
+
 conn = sqlite3.connect(DB_PATH)
 df = pd.read_sql_query("SELECT * FROM proyectos", conn)
 
