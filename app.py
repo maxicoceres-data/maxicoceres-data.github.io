@@ -10,8 +10,9 @@ import sqlite3
 import os
 
 # Intentar usar la versión cifrada de la DB si existe (mi_base.db.enc)
-enc_path = path_ubicacion() + ".enc"
-DB_PATH = path_ubicacion()
+raw_path = path_ubicacion()
+enc_path = str(raw_path) + ".enc"
+DB_PATH = str(raw_path)
 try:
     if os.path.exists(enc_path):
         from utils.fernet_db import decrypt_db_to_temp
