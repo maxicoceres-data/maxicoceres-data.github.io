@@ -1,1 +1,2 @@
-cryptography
+gspread
+oauth2client
