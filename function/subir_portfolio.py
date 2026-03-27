@@ -21,25 +21,25 @@ def subir_portfolio():
             origen = repo.create_remote('origin', remote_url)
 
         
-        # 2. Sincronizamos (Traemos lo que hay en GitHub)
-        try:
-            origen.pull() 
-        except Exception:
-            pass
-
-        # 3. Agregamos y Comiteamos
-        repo.git.add(A=True)
-        
-        # Solo hacemos commit si hay cambios reales para evitar el error de "nothing to commit"
+        # 2. Intentar hacer Commit SOLO si hay cambios
         if repo.is_dirty(untracked_files=True):
-            repo.index.commit("Actualización automatica desde mi App.")
-
-            origen.push()
-            st.success("🚀 ¡Portfolio actualizado con éxito!")
+            repo.git.add(A=True)
+            repo.index.commit("Actualización automática desde mi App.")
+            st.info("✅ Cambios locales guardados (Commit realizado).")
         else:
-            st.info("ℹ️ No hay cambios nuevos para subir.")
-            status = repo.git.status()
-            st.write(f"Estado de Git: {status}")
+            st.info("ℹ️ No hay cambios pendientes, procediendo a subir lo acumulado...")
+
+        # 3. EL PASO CLAVE: Forzar el Push aunque no haya habido commit nuevo ahora
+        # Usamos un try/except específico para el push
+        try:
+            # Hacemos un pull con rebase por si acaso alguien tocó algo en GitHub
+            repo.git.pull('origin', 'main', rebase=True)
+            
+            # Subimos los commits que están "adelantados"
+            origen.push()
+            st.success("🚀 ¡TODO SINCRONIZADO! Ya puedes hacer 'git pull' en tu VS Code.")
+        except Exception as push_error:
+            st.error(f"Fallo al subir a GitHub: {push_error}")
 
     except Exception as e:
-        st.error(f"❌ Error crítico: {e}")
+        st.error(f"Error general: {e}")
