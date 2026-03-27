@@ -38,6 +38,8 @@ def subir_portfolio():
             st.success("🚀 ¡Portfolio actualizado con éxito!")
         else:
             st.info("ℹ️ No hay cambios nuevos para subir.")
+            status = repo.git.status()
+            st.write(f"Estado de Git: {status}")
 
     except Exception as e:
         st.error(f"❌ Error crítico: {e}")
