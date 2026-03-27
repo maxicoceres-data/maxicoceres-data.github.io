@@ -23,19 +23,20 @@ def subir_portfolio():
         else:
             origen = repo.create_remote('origin', remote_url)
 
-        # 2. Sincronizamos antes de commitear para evitar conflictos de historia.
-        try:
-            repo.git.pull('origin', rama_actual, rebase=True)
-        except Exception as pull_error:
-            st.warning(f"No se pudo hacer pull previo: {pull_error}")
-
-        # 3. Commit SOLO si hay cambios locales reales.
+        # 2. Commit SOLO si hay cambios locales reales.
         if repo.is_dirty(untracked_files=True):
             repo.git.add(A=True)
             repo.index.commit("Actualización automática desde mi App.")
             st.info("Cambios locales detectados y commiteados.")
         else:
             st.info("No hay cambios locales nuevos. Se intentará push igualmente.")
+
+        # 3. Pull con rebase y autostash para integrar cambios remotos sin romper el flujo.
+        try:
+            repo.git.pull('origin', rama_actual, '--rebase', '--autostash')
+        except Exception as pull_error:
+            st.error(f"Fallo al integrar cambios remotos (pull --rebase): {pull_error}")
+            return
 
         # 4. Push explícito de la rama actual al remoto.
         try:
@@ -44,7 +45,12 @@ def subir_portfolio():
 
             if hubo_error:
                 detalle = "; ".join(info.summary for info in resultado_push)
-                st.error(f"Push con error: {detalle}")
+                # Intentamos obtener detalle completo del remoto para identificar el motivo real.
+                try:
+                    salida_push = repo.git.push('origin', f"{rama_actual}:{rama_actual}")
+                    st.error(f"Push rechazado: {detalle}. Detalle remoto: {salida_push}")
+                except Exception as push_cli_error:
+                    st.error(f"Push rechazado: {detalle}. Detalle remoto: {push_cli_error}")
                 return
 
             st.success("Todo sincronizado en GitHub. Ya puedes hacer pull en VS Code.")
