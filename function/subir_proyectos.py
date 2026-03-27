@@ -3,6 +3,8 @@ import streamlit as st
 from function.path import path_ubicacion
 from pathlib import Path
 
+MAX_ASSET_SIZE_BYTES = 95 * 1024 * 1024
+
 def subir_proyecto(titulo= None,cant_tecnologia= None,tecnologia= None,descripcion= None,url= None,github= None):
     
     DB_PATH= path_ubicacion()
@@ -17,6 +19,11 @@ def subir_proyecto(titulo= None,cant_tecnologia= None,tecnologia= None,descripci
         cant = int(cant_tecnologia)
     except Exception:
         st.error("Cantidad de tecnologías inválida.")
+        return
+
+    if getattr(url, "size", 0) > MAX_ASSET_SIZE_BYTES:
+        tam_mb = url.size / (1024 * 1024)
+        st.error(f"El archivo pesa {tam_mb:.2f} MB. Debe ser menor a 95 MB para poder subir a GitHub.")
         return
     
     tecnologias_string = tecnologia if isinstance(tecnologia, str) else ",".join(map(str, tecnologia))

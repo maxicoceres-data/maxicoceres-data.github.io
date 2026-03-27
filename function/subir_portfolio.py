@@ -2,6 +2,20 @@ from git import Repo
 import os
 import streamlit as st
 
+MAX_GITHUB_FILE_SIZE_BYTES = 100 * 1024 * 1024
+
+
+def _archivos_grandes_trackeados(repo):
+    grandes = []
+    for item in repo.index.entries:
+        ruta_relativa = item[0]
+        ruta_absoluta = os.path.join(repo.working_tree_dir, ruta_relativa)
+        if os.path.exists(ruta_absoluta):
+            size_bytes = os.path.getsize(ruta_absoluta)
+            if size_bytes > MAX_GITHUB_FILE_SIZE_BYTES:
+                grandes.append((ruta_relativa, size_bytes))
+    return grandes
+
 def subir_portfolio():
     try:
         if "GITHUB_TOKEN" not in st.secrets:
@@ -26,6 +40,19 @@ def subir_portfolio():
         # 2. Commit SOLO si hay cambios locales reales.
         if repo.is_dirty(untracked_files=True):
             repo.git.add(A=True)
+
+            archivos_grandes = _archivos_grandes_trackeados(repo)
+            if archivos_grandes:
+                listado = "\n".join(
+                    f"- {ruta} ({size / (1024 * 1024):.2f} MB)" for ruta, size in archivos_grandes
+                )
+                st.error(
+                    "No se puede sincronizar porque hay archivos mayores a 100 MB en git:\n"
+                    f"{listado}\n"
+                    "Reduce/comprime el archivo y vuelve a intentar."
+                )
+                return
+
             repo.index.commit("Actualización automática desde mi App.")
             st.info("Cambios locales detectados y commiteados.")
         else:
