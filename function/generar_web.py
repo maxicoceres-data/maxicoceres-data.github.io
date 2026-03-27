@@ -21,6 +21,9 @@ def generar_web():
     for proyecto in proyectos:
         p = dict(proyecto)
 
+        # Evita errores en plantilla si alguna fila tiene URL vacía o NULL.
+        p["url"] = (p.get("url") or "").strip()
+
         if p["tecnologia"]:
             p["tecnologia"] = [t.strip() for t in p["tecnologia"].split(",") if t.strip()]
         else:
@@ -86,7 +89,7 @@ def generar_web():
 					<span class="tag">{{t}}</span>
 					{% endfor %}
 					</div>
-					{% if p.url.endswith(".mp4") %}
+					{% if p.url and p.url.endswith(".mp4") %}
 					<video autoplay loop muted playsinline class="card-video">
 						<source
 							src="/assets/{{p.url}}"
@@ -94,8 +97,10 @@ def generar_web():
 						/>
 						Tu navegador no soporta videos.
 					</video>
-					{% else %}
+					{% elif p.url %}
 					<img class="card-imagen" src="/assets/{{p.url}}">
+					{% else %}
+					<div class="card-imagen" style="display:flex;align-items:center;justify-content:center;">Sin archivo</div>
 					{% endif %}
 					<h3>{{p.titulo}}</h3>
 					<p>
