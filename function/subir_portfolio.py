@@ -12,25 +12,32 @@ def subir_portfolio():
         
         repo = Repo(ruta_proy)
         
-        with repo.config_writer() as cw:
-            cw.set_value("user","name","maxicoceres-data")
-            cw.set_value("user","email","maximiliano.g.coceres@gmail.com")
+        # 1. Aseguramos el REMOTO con el TOKEN
+        remote_url = f"https://{TOKEN}@github.com/maxicoceres-data/maxicoceres-data.github.io.git"
+        if 'origin' in repo.remotes:
+            origen = repo.remote(name='origin')
+            origen.set_url(remote_url)
+        else:
+            origen = repo.create_remote('origin', remote_url)
+
         
+        # 2. Sincronizamos (Traemos lo que hay en GitHub)
+        try:
+            origen.pull() 
+        except Exception:
+            pass
+
+        # 3. Agregamos y Comiteamos
         repo.git.add(A=True)
         
-        
-        repo.git.commit(m="Actualización automatica desde mi App.")
-        
-        remote_url = f"https://{TOKEN}@github.com/maxicoceres-data/maxicoceres-data.github.io.git"
+        # Solo hacemos commit si hay cambios reales para evitar el error de "nothing to commit"
+        if repo.is_dirty(untracked_files=True):
+            repo.index.commit("Actualización automatica desde mi App.")
 
-        if 'origin' in repo.remotes:
-            repo.remote(name='origin').set_url(remote_url)
-        
-        origen = repo.remote(name='origin')
-        origen.push()
-        
-        st.success("Portfolio actualizado con exito!")
-        
-        
+            origen.push()
+            st.success("🚀 ¡Portfolio actualizado con éxito!")
+        else:
+            st.info("ℹ️ No hay cambios nuevos para subir.")
+
     except Exception as e:
-        st.warning(f"Error: {e}")
+        st.error(f"❌ Error crítico: {e}")
